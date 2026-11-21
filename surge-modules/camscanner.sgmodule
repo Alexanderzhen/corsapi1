@@ -1,0 +1,16 @@
+#!name=扫描全能王 · 每日抽奖签到
+#!desc=打开扫描全能王 App 自动抓取 Token，每日 10:15 自动完成幸运大转盘抽奖（每日最多 3 次）；抓取成功、抽奖完成、Token 失效都会发通知。脚本作者 MaYIHEI（paperclip），Luna 打包为 Surge 模块，另加两条直连规则避免接口绕道悉尼。
+#!author=MaYIHEI
+#!homepage=https://github.com/MaYIHEI/paperclip/tree/main/app/camscanner
+#!category=签到
+
+[Script]
+扫描全能王 Cookie = type=http-request,pattern=^https://api-cs\.intsig\.net/user/cs/get_user_attribute,requires-body=false,max-size=0,script-path=https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/camscanner/camscanner.cookie.js
+扫描全能王签到 = type=cron,cronexp=15 10 * * *,timeout=120,script-path=https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/camscanner/camscanner.js
+
+[Rule]
+DOMAIN-SUFFIX,intsig.net,DIRECT
+DOMAIN-SUFFIX,camscanner.com,DIRECT
+
+[MITM]
+hostname = %APPEND% api-cs.intsig.net
